@@ -1,0 +1,22 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '30 7 * * *'  # runs daily at 07:30 UTC
+  workflow_dispatch:
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Commit step by 22f3002355@ds.study.iitm.ac.in
+        run: |
+          echo "Daily heartbeat on $(date)" >> daily_log.txt
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "22f3002355@ds.study.iitm.ac.in"
+          git add daily_log.txt
+          git commit -m "Automated daily commit: $(date)" || echo "No changes to commit"
+          git push
